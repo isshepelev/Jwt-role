@@ -46,7 +46,7 @@ public class GreetingController {
     @PostMapping("/roleadmin")
     public void roleAdmin(){
         Role role = new Role();
-        role.setName("ROLE_USER");
+        role.setName("ROLE_ADMIN");
         roleRepository.save(role);
     }
 }
