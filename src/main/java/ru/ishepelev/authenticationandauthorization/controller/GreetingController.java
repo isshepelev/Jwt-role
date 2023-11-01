@@ -31,6 +31,12 @@ public class GreetingController {
         return principal.getName();
     }
 
+
+
+
+
+
+
     @PostMapping("/roleuser")
     public void roleUser(){
         Role role = new Role();
