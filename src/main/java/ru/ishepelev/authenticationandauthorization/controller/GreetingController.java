@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.ishepelev.authenticationandauthorization.service.UserService;
 
+import java.security.Principal;
+
 @RestController
 public class GreetingController {
     private final UserService myUserService;
@@ -18,9 +20,13 @@ public class GreetingController {
     public String unsecured(){
         return "unsecured";
     }
-    @PostMapping("/secured")
+    @GetMapping("/secured")
     public String secured(){
         return "secured";
+    }
+    @GetMapping("/info")
+    public String userData(Principal principal){
+        return principal.getName();
     }
 
 }

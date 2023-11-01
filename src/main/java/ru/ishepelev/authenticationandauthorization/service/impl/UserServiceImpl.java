@@ -1,6 +1,5 @@
 package ru.ishepelev.authenticationandauthorization.service.impl;
 
-import jakarta.transaction.Transactional;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -11,6 +10,7 @@ import ru.ishepelev.authenticationandauthorization.repository.RoleRepository;
 import ru.ishepelev.authenticationandauthorization.repository.UserRepository;
 import ru.ishepelev.authenticationandauthorization.service.UserService;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
