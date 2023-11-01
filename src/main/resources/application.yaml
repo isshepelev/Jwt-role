@@ -2,8 +2,12 @@ spring:
   datasource:
     username: postgres
     password: postgres
-    url: jdbc:postgresql://localhost:5432/authenticationspring
+    url: jdbc:postgresql://localhost:5432/newauth
     driverClassName: org.postgresql.Driver
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
+  main:
+    allow-circular-references: true
+
+#        authenticationspring

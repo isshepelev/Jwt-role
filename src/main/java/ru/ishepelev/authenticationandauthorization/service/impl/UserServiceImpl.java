@@ -4,8 +4,10 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.ishepelev.authenticationandauthorization.domain.User;
+import ru.ishepelev.authenticationandauthorization.dto.RegistrationUserDto;
 import ru.ishepelev.authenticationandauthorization.repository.RoleRepository;
 import ru.ishepelev.authenticationandauthorization.repository.UserRepository;
 import ru.ishepelev.authenticationandauthorization.service.UserService;
@@ -19,10 +21,12 @@ import java.util.stream.Collectors;
 public class UserServiceImpl implements UserService, UserDetailsService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository) {
+    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -42,7 +46,12 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public void createNewUser(User user) {
+    public void createNewUser(RegistrationUserDto registrationUserDto) {
+        User user = new User();
+        user.setName(registrationUserDto.getName());
+        user.setLastname(registrationUserDto.getLastname());
+        user.setLogin(registrationUserDto.getLogin());
+        user.setPassword(passwordEncoder.encode(registrationUserDto.getPassword()));
         user.setRoles(List.of(roleRepository.findByName("ROLE_USER").get()));
         userRepository.save(user);
     }

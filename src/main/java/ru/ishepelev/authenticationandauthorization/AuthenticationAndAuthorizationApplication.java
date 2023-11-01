@@ -14,7 +14,4 @@ public class AuthenticationAndAuthorizationApplication {
     public static void main(String[] args) {
         SpringApplication.run(AuthenticationAndAuthorizationApplication.class, args);
     }
-
-    @PostConstruct
-    public addUser()
 }

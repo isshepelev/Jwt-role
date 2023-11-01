@@ -1,5 +1,6 @@
 package ru.ishepelev.authenticationandauthorization.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
@@ -19,9 +20,10 @@ import ru.ishepelev.authenticationandauthorization.service.UserService;
 @EnableWebSecurity
 @Configuration
 public class SecurityConfig{
-    private final UserService userService;
+    private UserService userService;
 
-    public SecurityConfig(UserService userService) {
+    @Autowired
+    public void setUserService(UserService userService){
         this.userService = userService;
     }
 
