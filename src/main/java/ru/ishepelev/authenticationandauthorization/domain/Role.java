@@ -11,7 +11,7 @@ import javax.persistence.Id;
 
 @Entity
 @Data
-public class Role{
+public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;

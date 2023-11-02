@@ -11,5 +11,6 @@ import java.util.Optional;
 
 public interface UserService extends UserDetailsService {
     Optional<User> findByLogin(String login);
-    void createNewUser(RegistrationUserDto registrationUserDto);
+
+    User createNewUser(RegistrationUserDto registrationUserDto);
 }

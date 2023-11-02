@@ -19,36 +19,34 @@ public class GreetingController {
     }
 
     @GetMapping("/unsecured")
-    public String unsecured(){
+    public String unsecured() {
         return "unsecured";
     }
+
     @GetMapping("/secured")
-    public String secured(){
+    public String secured() {
         return "secured";
     }
+
     @GetMapping("/info")
-    public String userData(Principal principal){
+    public String userData(Principal principal) {
         return principal.getName();
     }
+
     @GetMapping("/user")
-    public String user(){
+    public String user() {
         return "user";
     }
 
-
-
-
-
-
-
     @PostMapping("/roleuser")
-    public void roleUser(){
+    public void roleUser() {
         Role role = new Role();
         role.setName("ROLE_USER");
         roleRepository.save(role);
     }
+
     @PostMapping("/roleadmin")
-    public void roleAdmin(){
+    public void roleAdmin() {
         Role role = new Role();
         role.setName("ROLE_ADMIN");
         roleRepository.save(role);

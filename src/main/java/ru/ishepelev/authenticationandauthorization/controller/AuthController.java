@@ -28,11 +28,12 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/auth")
-    public ResponseEntity<?> createToken(@RequestBody JwtRequest request){
+    public ResponseEntity<?> createToken(@RequestBody JwtRequest request) {
         return authService.createToken(request);
     }
+
     @PostMapping("/registration")
-    public ResponseEntity<?> createNewUser(@RequestBody RegistrationUserDto registrationUserDto){
+    public ResponseEntity<?> createNewUser(@RequestBody RegistrationUserDto registrationUserDto) {
         return authService.createNewUser(registrationUserDto);
     }
 }

@@ -1,5 +1,6 @@
 package ru.ishepelev.authenticationandauthorization.service.impl;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -19,20 +20,32 @@ import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService, UserDetailsService {
-    private final UserRepository userRepository;
-    private final RoleRepository roleRepository;
-    private final PasswordEncoder passwordEncoder;
+    private UserRepository userRepository;
+    private RoleService roleService;
+    private PasswordEncoder passwordEncoder;
 
-    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
+    @Autowired
+    public void setUserRepository(UserRepository userRepository) {
         this.userRepository = userRepository;
-        this.roleRepository = roleRepository;
+    }
+
+    @Autowired
+    public void setRoleService(RoleService roleService) {
+        this.roleService = roleService;
+    }
+
+    @Autowired
+    public void setPasswordEncoder(PasswordEncoder passwordEncoder) {
         this.passwordEncoder = passwordEncoder;
     }
+
 
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
-        User user = findByLogin(login).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        User user = findByLogin(login).orElseThrow(() -> new UsernameNotFoundException(
+                String.format("Пользователь '%s' не найден", login)
+        ));
         return new org.springframework.security.core.userdetails.User(
                 user.getLogin(),
                 user.getPassword(),
@@ -46,14 +59,14 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public void createNewUser(RegistrationUserDto registrationUserDto) {
+    public User createNewUser(RegistrationUserDto registrationUserDto) {
         User user = new User();
         user.setName(registrationUserDto.getName());
         user.setLastname(registrationUserDto.getLastname());
         user.setLogin(registrationUserDto.getLogin());
         user.setPassword(passwordEncoder.encode(registrationUserDto.getPassword()));
-        user.setRoles(List.of(roleRepository.findByName("ROLE_USER").get()));
-        userRepository.save(user);
+        user.setRoles(List.of(roleService.getUserRole()));
+        return userRepository.save(user);
     }
 
 }
