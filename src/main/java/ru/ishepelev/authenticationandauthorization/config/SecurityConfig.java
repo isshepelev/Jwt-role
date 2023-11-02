@@ -14,6 +14,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import ru.ishepelev.authenticationandauthorization.config.filter.JwtRequestFilter;
 import ru.ishepelev.authenticationandauthorization.service.UserService;
 
 
@@ -21,6 +23,11 @@ import ru.ishepelev.authenticationandauthorization.service.UserService;
 @Configuration
 public class SecurityConfig{
     private UserService userService;
+    private JwtRequestFilter jwtRequestFilter;
+    @Autowired
+    public void setJwtRequestFilter(JwtRequestFilter jwtRequestFilter){
+        this.jwtRequestFilter = jwtRequestFilter;
+    }
 
     @Autowired
     public void setUserService(UserService userService){
@@ -34,11 +41,14 @@ public class SecurityConfig{
                 .cors().disable()
                 .authorizeRequests().antMatchers("/secured","/info").authenticated()
                 .antMatchers("/admin").hasRole("ADMIN")
+                .antMatchers("/user").hasRole("USER")
+                .antMatchers("/auth").permitAll()
                 .anyRequest().permitAll()
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .exceptionHandling().authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED));
+                .exceptionHandling().authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
+                .and().addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 

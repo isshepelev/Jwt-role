@@ -30,6 +30,10 @@ public class GreetingController {
     public String userData(Principal principal){
         return principal.getName();
     }
+    @GetMapping("/user")
+    public String user(){
+        return "user";
+    }
 
 
 

@@ -13,12 +13,11 @@ import java.util.*;
 @Component
 public class JwtUtils {
     private final String secret = "984hg493gh0439rthr0429uruj2309yh937gc763fe87t3f89723gf";
-    private final Duration lifeTime = Duration.ofMinutes(5);
+    private final Duration lifeTime = Duration.ofMinutes(30);
 
     public String generateToken(UserDetails userDetails){ //TODO попробовать использовать user вместо UserDetails https://www.youtube.com/watch?v=NIv9TFTSIlg 51 минута если сам не разберусь
         Map<String, Object> claims = new HashMap<>();
         List<String> roleList = userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList();
-        System.out.println(roleList);
         claims.put("roles",roleList);
         Date issuedDate = new Date();
         Date expiredDate = new Date(issuedDate.getTime() + lifeTime.toMillis());
