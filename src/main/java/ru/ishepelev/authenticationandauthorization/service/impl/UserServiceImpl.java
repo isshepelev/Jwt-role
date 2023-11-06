@@ -9,7 +9,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.ishepelev.authenticationandauthorization.domain.User;
 import ru.ishepelev.authenticationandauthorization.dto.RegistrationUserDto;
-import ru.ishepelev.authenticationandauthorization.repository.RoleRepository;
 import ru.ishepelev.authenticationandauthorization.repository.UserRepository;
 import ru.ishepelev.authenticationandauthorization.service.UserService;
 
