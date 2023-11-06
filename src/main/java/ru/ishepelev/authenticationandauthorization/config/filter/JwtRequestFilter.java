@@ -2,8 +2,8 @@ package ru.ishepelev.authenticationandauthorization.config.filter;
 
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.SignatureException;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -20,15 +20,15 @@ import java.util.stream.Collectors;
 
 @Component
 @Slf4j
+@RequiredArgsConstructor
 public class JwtRequestFilter extends OncePerRequestFilter {
-    @Autowired
-    private JwtUtils jwtUtils;
+    private final JwtUtils jwtUtils;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String authHeader = request.getHeader("Authorization");
         String login = null;
-        String jwt;
+        String jwt = null;
 
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             jwt = authHeader.substring(7);
@@ -41,15 +41,15 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             } catch (Exception e) {
                 log.error("Ошибка при обработке токена");
             }
-            if (login != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-                UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(login, null, jwtUtils.getRoles(jwt).stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList()));
-                SecurityContextHolder.getContext().setAuthentication(token);
-                log.info("User authenticated: " + login);
-
-            }
-            filterChain.doFilter(request, response);
         } else {
             log.debug("Authorization header is missing or does not start with 'Bearer'");
         }
+        if (login != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(login, null, jwtUtils.getRoles(jwt).stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList()));
+            SecurityContextHolder.getContext().setAuthentication(token);
+            log.info("User authenticated: " + login);
+
+        }
+        filterChain.doFilter(request, response);
     }
 }
