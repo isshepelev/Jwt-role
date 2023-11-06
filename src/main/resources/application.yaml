@@ -6,7 +6,7 @@ spring:
     driverClassName: org.postgresql.Driver
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
   main:
     allow-circular-references: true
 
