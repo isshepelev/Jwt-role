@@ -6,7 +6,6 @@ import ru.ishepelev.authenticationandauthorization.domain.User;
 import ru.ishepelev.authenticationandauthorization.dto.RegistrationUserDto;
 
 
-import java.util.List;
 import java.util.Optional;
 
 public interface UserService extends UserDetailsService {
