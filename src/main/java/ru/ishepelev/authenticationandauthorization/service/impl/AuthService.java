@@ -6,29 +6,18 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import ru.ishepelev.authenticationandauthorization.domain.Role;
 import ru.ishepelev.authenticationandauthorization.domain.User;
 import ru.ishepelev.authenticationandauthorization.dto.JwtRequest;
 import ru.ishepelev.authenticationandauthorization.dto.JwtResponse;
 import ru.ishepelev.authenticationandauthorization.dto.RegistrationUserDto;
 import ru.ishepelev.authenticationandauthorization.dto.UserDto;
 import ru.ishepelev.authenticationandauthorization.exception.AppError;
-import ru.ishepelev.authenticationandauthorization.repository.RoleRepository;
-import ru.ishepelev.authenticationandauthorization.repository.UserRepository;
 import ru.ishepelev.authenticationandauthorization.service.UserService;
 import ru.ishepelev.authenticationandauthorization.utils.JwtUtils;
 
-import javax.transaction.Transactional;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
