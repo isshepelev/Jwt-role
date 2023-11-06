@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.ishepelev.authenticationandauthorization.domain.Role;
 import ru.ishepelev.authenticationandauthorization.repository.RoleRepository;
-import ru.ishepelev.authenticationandauthorization.service.UserService;
 
 import java.security.Principal;
 
