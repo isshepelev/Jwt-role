@@ -16,6 +16,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
@@ -45,9 +46,13 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             log.debug("Authorization header is missing or does not start with 'Bearer'");
         }
         if (login != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(login, null, jwtUtils.getRoles(jwt).stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList()));
-            SecurityContextHolder.getContext().setAuthentication(token);
+            List<SimpleGrantedAuthority> authorities = jwtUtils.getRoles(jwt).stream()
+                    .map(role -> new SimpleGrantedAuthority(role.toString()))
+                    .collect(Collectors.toList());
+
+            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(login, null, authorities);            SecurityContextHolder.getContext().setAuthentication(token);
             log.info("User authenticated: " + login);
+
 
         }
         filterChain.doFilter(request, response);

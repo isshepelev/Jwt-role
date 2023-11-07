@@ -33,7 +33,8 @@ public class AuthService {
             return new ResponseEntity<>(new AppError(HttpStatus.UNAUTHORIZED.value(), "Неправильный логин или пароль"), HttpStatus.UNAUTHORIZED);
         }
         UserDetails userDetails = userService.loadUserByUsername(request.getLogin());
-        String token = jwtUtils.generateToken(userDetails);
+        User user = userService.findByLogin(request.getLogin()).orElse(null);
+        String token = jwtUtils.generateToken(user);
         return ResponseEntity.ok(new JwtResponse(token));
     }
 
