@@ -19,7 +19,7 @@ public class JwtUtils {
     private String secret = "984hg493gh0439rthr0429uruj2309yh937gc763fe87t3f89723gf";
     private Duration lifeTime = Duration.ofMinutes(30);
 
-    public String generateToken(User user) { //TODO попробовать использовать user вместо UserDetails https://www.youtube.com/watch?v=NIv9TFTSIlg 51 минута если сам не разберусь
+    public String generateToken(User user) {
         Map<String, Object> claims = new HashMap<>();
         Collection<Role> rolesList = user.getRoles();
         claims.put("roles", rolesList);
